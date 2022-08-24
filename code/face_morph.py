@@ -55,7 +55,7 @@ def morph_triangle(img1, img2, img, t1, t2, t, alpha) :
     img[r[1]:r[1]+r[3], r[0]:r[0]+r[2]] = img[r[1]:r[1]+r[3], r[0]:r[0]+r[2]] * ( 1 - mask ) + imgRect * mask
 
 
-def generate_morph_sequence(duration,frame_rate,img1,img2,points1,points2,tri_list,size,output):
+def generate_morph_sequence(duration: float, frame_rate: int, img1, img2, points1, points2, tri_list, size, output: str) -> None:
 
     num_images = int(duration*frame_rate)
     p = Popen(
