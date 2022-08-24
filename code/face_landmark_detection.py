@@ -1,6 +1,6 @@
 import dlib
 import numpy as np
-
+import cv2
 
 class NoFaceFound(Exception):
    """Raised when there is no face found"""
