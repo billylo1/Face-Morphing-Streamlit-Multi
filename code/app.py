@@ -21,7 +21,7 @@ def doMorphing(img1, img2, duration, frame_rate, output):
 
 st.title("Face Morphing")
 
-image1_path = IMAGES_DIR.joinpath("jennie.png")
+image1_path = IMAGES_DIR.joinpath("tim_profilepic.jpeg")
 image2_path = IMAGES_DIR.joinpath("rih.png")
 
 cols = st.columns(2)
