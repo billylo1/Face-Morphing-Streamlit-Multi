@@ -34,7 +34,7 @@ draw_triangles = st.checkbox("Show Triangle Mesh", value=False)
 
 if st.button("Morph!"):
     # Generate a filename
-    filename = f"{uuid.uuid4()}.mp4"
+    new_filename = f"{uuid.uuid4()}.mp4"
     with st.spinner("Generating movie..."):
         doMorphing(
             img1=cv2.imread(str(image1_path)),
@@ -42,8 +42,19 @@ if st.button("Morph!"):
             duration=duration,
             frame_rate=framerate,
             draw_triangles=draw_triangles,
-            output=filename)
+            output=new_filename)
 
-    st.video(filename)
-    pathlib.Path(filename).unlink(missing_ok=True)
+        # Delete the previous movie, if we have one
+        movie_filename = st.session_state.get("movie_filename")
+        if movie_filename is not None:
+            try:
+                pathlib.Path(movie_filename).unlink(missing_ok=True)
+            except:
+                pass
+
+        st.session_state["movie_filename"] = new_filename
+
+movie_filename = st.session_state.get("movie_filename")
+if movie_filename is not None and pathlib.Path(movie_filename).is_file():
+    st.video(movie_filename)
 
