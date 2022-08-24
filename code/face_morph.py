@@ -1,10 +1,9 @@
-import numpy as np
-import cv2
-import sys
-import os
-import math
 from subprocess import Popen, PIPE
+
+import cv2
+import numpy as np
 from PIL import Image
+
 
 # Apply affine transform calculated using srcTri and dstTri to src and
 # output an image of size.
