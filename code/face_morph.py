@@ -55,8 +55,18 @@ def morph_triangle(img1, img2, img, t1, t2, t, alpha) :
     img[r[1]:r[1]+r[3], r[0]:r[0]+r[2]] = img[r[1]:r[1]+r[3], r[0]:r[0]+r[2]] * ( 1 - mask ) + imgRect * mask
 
 
-def generate_morph_sequence(duration: float, frame_rate: int, img1, img2, points1, points2, tri_list, size, output: str) -> None:
-
+def generate_morph_sequence(
+    duration: float,
+    frame_rate: int,
+    img1,
+    img2,
+    points1,
+    points2,
+    tri_list,
+    size,
+    draw_triangles: bool,
+    output: str
+) -> None:
     num_images = int(duration*frame_rate)
     p = Popen(
         ['ffmpeg', '-y', '-f', 'image2pipe', '-r', str(frame_rate), '-s', str(size[1]) + 'x' + str(size[0]), '-i', '-',
@@ -98,9 +108,10 @@ def generate_morph_sequence(duration: float, frame_rate: int, img1, img2, points
             pt2 = (int(t[1][0]), int(t[1][1]))
             pt3 = (int(t[2][0]), int(t[2][1]))
 
-            cv2.line(morphed_frame, pt1, pt2, (255, 255, 255), 1, 8, 0)
-            cv2.line(morphed_frame, pt2, pt3, (255, 255, 255), 1, 8, 0)
-            cv2.line(morphed_frame, pt3, pt1, (255, 255, 255), 1, 8, 0)
+            if draw_triangles:
+                cv2.line(morphed_frame, pt1, pt2, (255, 255, 255), 1, 8, 0)
+                cv2.line(morphed_frame, pt2, pt3, (255, 255, 255), 1, 8, 0)
+                cv2.line(morphed_frame, pt3, pt1, (255, 255, 255), 1, 8, 0)
             
         res = Image.fromarray(cv2.cvtColor(np.uint8(morphed_frame), cv2.COLOR_BGR2RGB))
         res.save(p.stdin,'JPEG')
