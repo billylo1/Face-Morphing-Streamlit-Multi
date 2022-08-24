@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+streamlit = ">= 1.12"
+dlib-binary = "*"
+numpy =  "*"
+scikit_image = "*"
+opencv_python = "*"
+Pillow = "*"
+imutils = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
