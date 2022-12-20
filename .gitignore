@@ -29,3 +29,5 @@ cmd.txt
 
 # Video files too large
 output/
+*.mp4
+*.png

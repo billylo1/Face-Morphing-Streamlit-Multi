@@ -24,9 +24,12 @@ image2_path = IMAGES_DIR.joinpath("rih.png")
 
 cols = st.columns(2)
 with cols[0]:
-    st.image(str(image1_path))
+    # st.image(str(image1_path))
+    img1uploaded = st.file_uploader("Starting image", type=["png", "jpg", "jpeg"])
+
 with cols[1]:
-    st.image(str(image2_path))
+    # st.image(str(image2_path))
+    img2uploaded = st.file_uploader("Ending image", type=["png", "jpg", "jpeg"])
 
 duration = st.number_input("Morph Duration", min_value=1.0, value=5.0)
 framerate = st.number_input("Morph Framerate", min_value=1, value=20)
@@ -35,10 +38,22 @@ draw_triangles = st.checkbox("Show Triangle Mesh", value=False)
 if st.button("Morph!"):
     # Generate a filename
     new_filename = f"{uuid.uuid4()}.mp4"
+    img1bytes = img1uploaded.getvalue()
+    with open(img1uploaded.name, 'wb') as w:
+        w.write(img1bytes)
+        w.close()
+
+    img2bytes = img2uploaded.getvalue()
+    with open(img2uploaded.name, 'wb') as w:
+        w.write(img2bytes)
+        w.close()
+
     with st.spinner("Generating movie..."):
         doMorphing(
-            img1=cv2.imread(str(image1_path)),
-            img2=cv2.imread(str(image2_path)),
+            # img1=cv2.imread(str(image1_path)),
+            # img2=cv2.imread(str(image2_path)),
+            img1 = cv2.imread(img1uploaded.name),
+            img2 = cv2.imread(img2uploaded.name),
             duration=duration,
             frame_rate=framerate,
             draw_triangles=draw_triangles,
