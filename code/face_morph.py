@@ -56,8 +56,7 @@ def morph_triangle(img1, img2, img, t1, t2, t, alpha) :
 
 
 def generate_morph_sequence(
-    duration: float,
-    frame_rate: int,
+    num_images: int,
     img1,
     img2,
     points1,
@@ -65,13 +64,8 @@ def generate_morph_sequence(
     tri_list,
     size,
     draw_triangles: bool,
-    output: str
+    output_pipe: PIPE
 ) -> None:
-    num_images = int(duration*frame_rate)
-    p = Popen(
-        ['ffmpeg', '-y', '-f', 'image2pipe', '-r', str(frame_rate), '-s', str(size[1]) + 'x' + str(size[0]), '-i', '-',
-         '-c:v', 'libx264', '-crf', '25', '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-pix_fmt', 'yuv420p', output],
-        stdin=PIPE)
     
     for j in range(0, num_images):
 
@@ -114,7 +108,5 @@ def generate_morph_sequence(
                 cv2.line(morphed_frame, pt3, pt1, (255, 255, 255), 1, 8, 0)
             
         res = Image.fromarray(cv2.cvtColor(np.uint8(morphed_frame), cv2.COLOR_BGR2RGB))
-        res.save(p.stdin,'JPEG')
+        res.save(output_pipe,'JPEG')
 
-    p.stdin.close()
-    p.wait()
