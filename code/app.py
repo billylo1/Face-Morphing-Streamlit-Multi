@@ -18,6 +18,9 @@ def doMorphing(img1, img2, duration: float, frame_rate: int, draw_triangles: boo
     tri = make_delaunay(size[1], size[0], list3, img1, img2)
     generate_morph_sequence(duration, frame_rate, img1, img2, points1, points2, tri, size, draw_triangles, output)
 
+st.set_page_config(
+    page_title="magic.billylo.ca",
+    page_icon="🧒")
 
 st.title("See kids grow up!")
 
@@ -28,8 +31,8 @@ with cols[0]:
 with cols[1]:
     img2uploaded = st.file_uploader("Ending image", type=["png", "jpg", "jpeg"])
 
-duration = st.number_input("Video duration", min_value=1.0, value=5.0)
-framerate = st.number_input("# of frames per second", min_value=1, value=30)
+duration = st.number_input("Video duration", min_value=1.0, value=4.0)
+framerate = st.number_input("# of frames per second", min_value=1, value=20)
 draw_triangles = False
 
 if st.button("Generate Video"):
