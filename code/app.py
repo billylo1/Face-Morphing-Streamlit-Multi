@@ -70,13 +70,15 @@ if st.button("Generate Video"):
         alignedimagenames = []
         for uploaded_file in uploaded_files:
             imgbytes = uploaded_file.getvalue()
-            with open(f"{uploaded_file.name}", 'wb') as w:
+            prefixed_filename = f"{key}_{uploaded_file.name}"
+            with open(prefixed_filename, 'wb') as w:
                 w.write(imgbytes)
                 w.close()
-            align_image(uploaded_file.name)
-            alignedimagename = '%s_aligned.png' % (os.path.splitext(uploaded_file.name)[0])
+            align_image(prefixed_filename)
+            alignedimagename = '%s_aligned.png' % (os.path.splitext(prefixed_filename)[0])
             # print(alignedimagename)
             alignedimagenames.append(alignedimagename)
+            os.remove(prefixed_filename)
 
     with st.spinner("Generating video..."):
 
@@ -87,7 +89,10 @@ if st.button("Generate Video"):
             draw_triangles=draw_triangles,
             output=new_filename)
 
-            # Delete the previous movie, if we have one
+        # Remove aligned images
+        for alignedimagename in alignedimagenames:
+            os.remove(alignedimagename)
+
         movie_filename = st.session_state.get("movie_filename")
         if movie_filename is not None:
             try:
