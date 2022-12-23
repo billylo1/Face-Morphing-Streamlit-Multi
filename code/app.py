@@ -48,7 +48,9 @@ st.set_page_config(
     page_icon="🧒")
 
 st.title("See kids grow up!")
-st.header("Upload your images, and we'll generate a video transitioning from one to the next, ordered by filenames")
+st.subheader("Upload two or more photos, and we'll generate a video transitioning from one to the next, ordered by filenames")
+st.write("Reminder: Please ensure there is only one face on each photo before uploading. Cheers!")
+
 uploaded_files = st.file_uploader("Upload images", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
 
 duration = st.number_input("Video duration", min_value=1.0, value=4.0)
