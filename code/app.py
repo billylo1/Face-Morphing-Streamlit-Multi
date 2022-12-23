@@ -61,51 +61,56 @@ if st.button("Generate Video"):
 
     if uploaded_files is None or uploaded_files.__len__() < 2:
         st.error("Please include at least two images")
+    else:
 
-    key = uuid.uuid4().hex
-    new_filename = f"{key}.mp4"
-    uploaded_files = sorted(uploaded_files, key=lambda x: x.name)
+        key = uuid.uuid4().hex
+        new_filename = f"{key}.mp4"
+        uploaded_files = sorted(uploaded_files, key=lambda x: x.name)
 
-    with st.spinner("Aligning images..."):
+        with st.spinner("Aligning images..."):
 
-        alignedimagenames = []
-        for uploaded_file in uploaded_files:
-            imgbytes = uploaded_file.getvalue()
-            prefixed_filename = f"{key}_{uploaded_file.name}"
-            with open(prefixed_filename, 'wb') as w:
-                w.write(imgbytes)
-                w.close()
-            align_image(prefixed_filename)
-            alignedimagename = '%s_aligned.png' % (os.path.splitext(prefixed_filename)[0])
-            # print(alignedimagename)
-            alignedimagenames.append(alignedimagename)
-            os.remove(prefixed_filename)
+            alignedimagenames = []
+            for uploaded_file in uploaded_files:
+                imgbytes = uploaded_file.getvalue()
+                prefixed_filename = f"{key}_{uploaded_file.name}"
+                with open(prefixed_filename, 'wb') as w:
+                    w.write(imgbytes)
+                    w.close()
+                align_image(prefixed_filename)
+                alignedimagename = '%s_aligned.png' % (os.path.splitext(prefixed_filename)[0])
+                # print(alignedimagename)
+                alignedimagenames.append(alignedimagename)
+                os.remove(prefixed_filename)
 
-    with st.spinner("Generating video..."):
+        with st.spinner("Generating video..."):
 
-        doMorphing(
-            alignedimagenames=alignedimagenames,
-            duration=duration,
-            frame_rate=framerate,
-            draw_triangles=draw_triangles,
-            output=new_filename)
+            doMorphing(
+                alignedimagenames=alignedimagenames,
+                duration=duration,
+                frame_rate=framerate,
+                draw_triangles=draw_triangles,
+                output=new_filename)
 
-        # Remove aligned images
-        for alignedimagename in alignedimagenames:
-            os.remove(alignedimagename)
+            # Remove aligned images
+            for alignedimagename in alignedimagenames:
+                os.remove(alignedimagename)
 
-        movie_filename = st.session_state.get("movie_filename")
-        if movie_filename is not None:
-            try:
-                pathlib.Path(movie_filename).unlink(missing_ok=True)
-            except:
-                pass
+            movie_filename = st.session_state.get("movie_filename")
+            if movie_filename is not None:
+                try:
+                    pathlib.Path(movie_filename).unlink(missing_ok=True)
+                except:
+                    pass
 
-        st.session_state["movie_filename"] = new_filename
+            st.session_state["movie_filename"] = new_filename
 
-movie_filename = st.session_state.get("movie_filename")
-if movie_filename is not None and pathlib.Path(movie_filename).is_file():
-    st.video(movie_filename)
+    movie_filename = st.session_state.get("movie_filename")
+    if movie_filename is not None and pathlib.Path(movie_filename).is_file():
+        st.video(movie_filename)
 
+st.markdown("---")
+st.subheader("About")
 st.markdown("Source code available at: [https://github.com/billylo1/Face-Morphing-Streamlit-Multi]")
-st.markdown("Credits: To learn more about the math behind this, check out [https://azmariewang.medium.com/face-morphing-a-step-by-step-tutorial-with-code-75a663cdc666]")
+st.markdown("Credits:")
+st.markdown("* To learn more about the math behind this, check out [https://azmariewang.medium.com/face-morphing-a-step-by-step-tutorial-with-code-75a663cdc666]")
+st.markdown("* Streamlit version that inspired this project: [https://github.com/tconkling/Face-Morphing-Streamlit]")
