@@ -4,6 +4,7 @@ import utils
 import cv2
 import streamlit as st
 import os
+from rembg import remove
 
 from delaunay_triangulation import make_delaunay
 from face_landmark_detection import generate_face_correspondences
@@ -48,7 +49,7 @@ st.set_page_config(
     page_icon="🧒")
 
 st.title("See kids grow up!")
-st.subheader("Upload two or more photos, and we'll generate a video transitioning from one to the next, ordered by filenames")
+st.subheader("Upload two or more photos, and we'll generate a video transitioning from one to the next, ordered by your file names")
 st.write("Reminder: Please ensure there is only one face on each photo before uploading. Cheers!")
 uploaded_files = st.file_uploader("Upload images", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
 
@@ -67,11 +68,14 @@ if st.button("Generate Video"):
         new_filename = f"{key}.mp4"
         uploaded_files = sorted(uploaded_files, key=lambda x: x.name)
 
-        with st.spinner("Aligning images..."):
+        with st.spinner("Removing background & aligning images..."):
 
             alignedimagenames = []
             for uploaded_file in uploaded_files:
-                imgbytes = uploaded_file.getvalue()
+
+                input = uploaded_file.getvalue()
+                imgbytes = remove(input)
+
                 prefixed_filename = f"{key}_{uploaded_file.name}"
                 with open(prefixed_filename, 'wb') as w:
                     w.write(imgbytes)
