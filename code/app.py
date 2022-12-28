@@ -112,9 +112,10 @@ if st.button("Generate Video"):
     if movie_filename is not None and pathlib.Path(movie_filename).is_file():
         st.video(movie_filename)
 
-st.markdown("---")
-st.subheader("About")
-st.markdown("Source code available at: [https://github.com/billylo1/Face-Morphing-Streamlit-Multi]")
-st.markdown("Credits:")
+st.markdown("*** ")
+st.markdown("##### About:")
+st.markdown("**Transparancy**: Full source code is available at: [https://github.com/billylo1/Face-Morphing-Streamlit-Multi]")
+st.markdown("**Your Privacy**: Photos are deleted immediately after the video is generated. Your video is assigned a random file name (UUID) and deleted after 10 minutes. If you wish to keep a copy, just use the download function from ... menu on the bottom right of the video player.")
+st.markdown("##### Credits:")
 st.markdown("* To learn more about the math behind this, check out [https://azmariewang.medium.com/face-morphing-a-step-by-step-tutorial-with-code-75a663cdc666]")
 st.markdown("* Streamlit version that inspired this project: [https://github.com/tconkling/Face-Morphing-Streamlit]")
