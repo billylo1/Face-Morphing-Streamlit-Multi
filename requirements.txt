@@ -1,0 +1,11 @@
+streamlit
+dlib
+numpy
+scikit_image
+opencv_python
+Pillow==9.5
+imutils
+rembg
+onnxruntime
+watchdog
+

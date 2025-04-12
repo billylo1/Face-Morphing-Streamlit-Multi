@@ -3,16 +3,17 @@ Face Morphing in Streamlit
 
 Adapts https://github.com/Azmarie/Face-Morphing into a Streamlit app.
 
-## Installation
+## Installation on Ubuntu
 
-- Install prereqs: `ffmpeg`, `cmake`, and `pipenv`
-- Create pipenv environment (`$ pipenv install`)
+- sudo apt install ffmpeg cmake libjpeg-dev zlib1g-dev
+- python3 -m venv .
+- source ./bin/activate
+- pip3 install -r requirements.txts
 
 ## Running
 
-```shell
-$ pipenv shell
+```
+$ source ./bin/activate
 $ streamlit run code/app.py
 ```
-
 
