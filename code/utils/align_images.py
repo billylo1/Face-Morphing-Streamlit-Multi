@@ -25,21 +25,23 @@ def align_image(img_name):
     print('Aligning %s ...' % img_name)
     try:
         raw_img_path = img_name
-        # print('Loading image...', raw_img_path)
+        print('Loading image...', raw_img_path)
         fn = face_img_name = '%s_aligned.png' % (os.path.splitext(img_name)[0])
-        # print('Getting landmarks...', fn)
+        print('Getting landmarks...', fn)
         if os.path.isfile(fn):
+            print('isFile')
             return
-        
+        print('hello')
         for i, face_landmarks in enumerate(landmarks_detector.get_landmarks(raw_img_path), start=1):
             try:
+                print('Found')
                 face_img_name = '%s_aligned.png' % (os.path.splitext(img_name)[0])
-                # print('Starting face alignment...', face_img_name)
+                print('Starting face alignment...', face_img_name)
                 aligned_face_path = face_img_name
                 image_align(raw_img_path, aligned_face_path, face_landmarks, output_size=output_size)
-                # print('Wrote result %s' % aligned_face_path)
+                print('Wrote result %s' % aligned_face_path)
             except:
                 print("Exception in face alignment!")
 
-    except:
-        print("Exception in landmark detection!")
+    except Exception as error:
+        print("An error occurred -->:", error)

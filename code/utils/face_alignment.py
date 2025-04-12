@@ -7,7 +7,7 @@ import PIL.Image
 def image_align(src_file, dst_file, face_landmarks, output_size=1024, transform_size=4096, enable_padding=True, x_scale=1, y_scale=1, em_scale=0.1, alpha=False):
         # Align function from FFHQ dataset pre-processing step
         # https://github.com/NVlabs/ffhq-dataset/blob/master/download_ffhq.py
-
+    try:
         lm = np.array(face_landmarks)
         lm_chin          = lm[0  : 17]  # left-right
         lm_eyebrow_left  = lm[17 : 22]  # left-right
@@ -90,3 +90,6 @@ def image_align(src_file, dst_file, face_landmarks, output_size=1024, transform_
 
         # Save aligned image.
         img.save(dst_file, 'PNG')
+
+    except Exception as error:
+        print("An error occurred:", error) # An error occurred: name 'x' is not defined

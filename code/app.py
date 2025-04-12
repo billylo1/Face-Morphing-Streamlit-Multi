@@ -24,8 +24,9 @@ def doMorphing(alignedimagenames, duration: float, frame_rate: int, draw_triangl
     num_images = int((duration*frame_rate)/(alignedimagenames.__len__()-1))
 
     for imgname in alignedimagenames:
-        if not pathlib.Path(imgname).is_file():
-            raise FileNotFoundError(f"File {imgname} not found")
+        imageFullPath = pathlib.Path(imgname)
+        if not imageFullPath.is_file():
+            raise FileNotFoundError(f"File {imageFullPath} not found")
         if img1 is None:
             img1 = cv2.imread(imgname)
             continue
@@ -45,7 +46,7 @@ def doMorphing(alignedimagenames, duration: float, frame_rate: int, draw_triangl
     p.wait()
 
 st.set_page_config(
-    page_title="magic.billylo.ca",
+    page_title="magic.evergreen-labs.org",
     page_icon="🧒")
 
 st.title("See kids grow up!")
@@ -77,14 +78,14 @@ if st.button("Generate Video"):
 
                 input = uploaded_file.getvalue()
                 imgbytes = remove(input)
-
+                print("removed background")
                 prefixed_filename = f"{key}_{uploaded_file.name}"
                 with open(prefixed_filename, 'wb') as w:
                     w.write(imgbytes)
                     w.close()
                 align_image(prefixed_filename)
                 alignedimagename = '%s_aligned.png' % (os.path.splitext(prefixed_filename)[0])
-                # print(alignedimagename)
+                print(alignedimagename)
                 alignedimagenames.append(alignedimagename)
                 os.remove(prefixed_filename)
 
